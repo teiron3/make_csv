@@ -92,8 +92,7 @@ partial class Form01
 
 }
 
-class pic_data_class
-{
+class pic_data_class{
     bool need;
 
     public string Name{get;set;}
@@ -110,19 +109,15 @@ class pic_data_class
     public string Pic_CreateDate{get;set;}
     public Bitmap Pic_data{get;set;}
     public string Address{get{return @".\pic_folder\" + this.Name + ".bmp";}}
-
 }
 
-class pic_make
-{
-    static public void pic_create(pic_data_class obj)
-    {
+class pic_make{
+    static public void pic_create(pic_data_class obj){
         Bitmap bmp = new Bitmap( obj.Pic_Width, obj.Pic_Height);
         Graphics g = Graphics.FromImage(bmp);
         g.CopyFromScreen( new Point( obj.Pic_X, obj.Pic_Y), new Point( 0, 0), bmp.Size);
 
         g.Dispose();
         bmp.Save(obj.Address);
-        
     }
 }

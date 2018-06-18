@@ -2,8 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-partial class Form01 : Form
-{
+partial class Form01 : Form{
     bool stop_flg = false;
     ListView lv = new ListView();
     TextBox tb = new TextBox();
@@ -40,13 +39,13 @@ partial class Form01 : Form
         btn1.Parent = this;
         btn1.Location = new Point(10, 210);
         btn1.Text = "読み込み";
-        btn1.Click += new EventHandler(btn1OnClick);
+        btn1.Click += (obj, e) => paint_list();
 
         Button btn2 = new Button();
         btn2.Parent = this;
         btn2.Location = new Point(10, 240);
         btn2.Text = "書き込み";
-        btn2.Click += new EventHandler(btn2OnClick);
+        btn2.Click += (obj, e) => write_csv();
 
         Button btn3 = new Button();
         btn3.Parent = this;
@@ -54,7 +53,7 @@ partial class Form01 : Form
         btn3.Width = 80;
         btn3.Height = 40;
         btn3.Text = "データチェック";
-        btn3.Click += new EventHandler(btnClick_datacheck);
+        btn3.Click += (obj, e) => Data_Check();
 
         Button btn4 = new Button();
         btn4.Parent = this;
@@ -76,19 +75,6 @@ partial class Form01 : Form
         cb.Parent = this;
         cb.Location = new Point(100, 210);
         cb.Text = "Picture";
-
-        //paint_list();
-
-    }
-
-    //描画
-    void btn1OnClick(object sender, EventArgs e){
-        paint_list();
-    }
-
-    //csvファイル書き込み
-    void btn2OnClick(object sender, EventArgs e){
-        write_csv();
     }
 
     void btnClick_getpicture(object sender, EventArgs e){
@@ -101,10 +87,6 @@ partial class Form01 : Form
 
         if(p_class[lv.SelectedItems[0].Index].Necessity)
         pic_make.pic_create(p_class[lv.SelectedItems[0].Index]);
-    }
-
-    void btnClick_datacheck(object sender, EventArgs e){
-        Data_Check();
     }
 
     void testkeypress(object sender, KeyEventArgs e){
