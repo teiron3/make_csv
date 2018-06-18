@@ -63,6 +63,14 @@ partial class Form01 : Form{
         btn4.Text = "‰æ‘œæ“¾";
         btn4.Click += new EventHandler(btnClick_getpicture);
 
+        Button btn5 = new Button();
+        btn5.Parent = this;
+        btn5.Location = new Point(480, 210);
+        btn5.Width = 80;
+        btn5.Height = 40;
+        btn5.Text = "–¼‘O•ÏX";
+        btn5.Click += ;
+
         this.KeyPreview = true;
         KeyDown += new KeyEventHandler(testkeypress);
 
@@ -184,4 +192,9 @@ partial class Form01 : Form{
         }
     }
 
+    void show_Form02(pic_data_class obj){
+        Form02 fm2 = new Form02(obj);
+        fm2.ShowDialog(this);
+        fm2.Dispose();
+    }
 }
