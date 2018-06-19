@@ -61,7 +61,7 @@ partial class Form01 : Form{
         btn4.Width = 80;
         btn4.Height = 40;
         btn4.Text = "画像取得";
-        btn4.Click += new EventHandler(btnClick_getpicture);
+        btn4.Click += new EventHandler(btn4Click_getpicture);
 
         Button btn5 = new Button();
         btn5.Parent = this;
@@ -69,7 +69,16 @@ partial class Form01 : Form{
         btn5.Width = 80;
         btn5.Height = 40;
         btn5.Text = "名前変更";
-        btn5.Click += ;
+        btn5.Click += new EventHandler(btn5Click_namechange);
+
+
+        Button btn6 = new Button();
+        btn6.Parent = this;
+        btn6.Location = new Point(480, 260);
+        btn6.Width = 80;
+        btn6.Height = 40;
+        btn6.Text = "新規追加";
+        btn6.Click += new EventHandler(btn6Click_newname);
 
         this.KeyPreview = true;
         KeyDown += new KeyEventHandler(testkeypress);
@@ -85,7 +94,7 @@ partial class Form01 : Form{
         cb.Text = "Picture";
     }
 
-    void btnClick_getpicture(object sender, EventArgs e){
+    void btn4Click_getpicture(object sender, EventArgs e){
         if(lv.SelectedItems.Count < 1)return;
 
         bool a;
@@ -97,6 +106,25 @@ partial class Form01 : Form{
         pic_make.pic_create(p_class[lv.SelectedItems[0].Index]);
     }
 
+    void btn5Click_namechange(object sender, EventArgs e){
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+        pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
+
+        show_Form02(p);
+    }
+
+    void btn6Click_newname(object sender, EventArgs e){
+        this.rows ++;
+        p_class[this.rows] = new pic_data_class();
+        //p_class[this.rows].Name;
+
+        show_Form02(p_class[this.rows]);
+    }
     void testkeypress(object sender, KeyEventArgs e){
         if(lv.SelectedItems.Count > 0){
             //if(a != Keys.X | a != Keys.Y | a != Keys.P)return;
@@ -104,14 +132,22 @@ partial class Form01 : Form{
                 cb.Checked = !cb.Checked;return;
             }
 
+            Func<string, pic_data_class>find_p_class = (str_name) =>{
+                foreach(pic_data_class pc in p_class){
+                    if(str_name == pc.Name)return pc;
+                }
+                return null;
+            };
+            pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
+
             if(e.KeyCode == Keys.T){
-                p_class[lv.SelectedItems[0].Index].Necessity = true;
+                p.Necessity = true;
                 lv.SelectedItems[0].SubItems[1].Text = "True";
                 return;
             }
 
             if(e.KeyCode == Keys.F){
-                p_class[lv.SelectedItems[0].Index].Necessity = false;
+                p.Necessity = false;
                 lv.SelectedItems[0].SubItems[1].Text = "False";
                 return;
             }
@@ -120,17 +156,17 @@ partial class Form01 : Form{
             if(!cb.Checked){
                 switch (e.KeyCode){
                     case Keys.S:
-                        p_class[lv.SelectedItems[0].Index].X = Cursor.Position.X;
-                        lv.SelectedItems[0].SubItems[2].Text = p_class[lv.SelectedItems[0].Index].X.ToString();
-                        p_class[lv.SelectedItems[0].Index].Y = Cursor.Position.Y;
-                        lv.SelectedItems[0].SubItems[3].Text = p_class[lv.SelectedItems[0].Index].Y.ToString();
+                        p.X = Cursor.Position.X;
+                        lv.SelectedItems[0].SubItems[2].Text = p.X.ToString();
+                        p.Y = Cursor.Position.Y;
+                        lv.SelectedItems[0].SubItems[3].Text = p.Y.ToString();
                         break;
 
                     case Keys.E:
-                        p_class[lv.SelectedItems[0].Index].Width = Cursor.Position.X - p_class[lv.SelectedItems[0].Index].X;
-                        lv.SelectedItems[0].SubItems[4].Text = p_class[lv.SelectedItems[0].Index].Width.ToString();
-                        p_class[lv.SelectedItems[0].Index].Height = Cursor.Position.Y - p_class[lv.SelectedItems[0].Index].Y;
-                        lv.SelectedItems[0].SubItems[5].Text = p_class[lv.SelectedItems[0].Index].Height.ToString();
+                        p.Width = Cursor.Position.X - p.X;
+                        lv.SelectedItems[0].SubItems[4].Text = p.Width.ToString();
+                        p.Height = Cursor.Position.Y - p.Y;
+                        lv.SelectedItems[0].SubItems[5].Text = p.Height.ToString();
                         break;
                 }
                 return;
@@ -138,17 +174,17 @@ partial class Form01 : Form{
             //チェックなし
             switch (e.KeyCode){
                 case Keys.S:
-                    p_class[lv.SelectedItems[0].Index].Pic_X = Cursor.Position.X;
-                    lv.SelectedItems[0].SubItems[6].Text = p_class[lv.SelectedItems[0].Index].Pic_X.ToString();
-                    p_class[lv.SelectedItems[0].Index].Pic_Y = Cursor.Position.Y;
-                    lv.SelectedItems[0].SubItems[7].Text = p_class[lv.SelectedItems[0].Index].Pic_Y.ToString();
+                    p.Pic_X = Cursor.Position.X;
+                    lv.SelectedItems[0].SubItems[6].Text = p.Pic_X.ToString();
+                    p.Pic_Y = Cursor.Position.Y;
+                    lv.SelectedItems[0].SubItems[7].Text = p.Pic_Y.ToString();
                     break;
 
                 case Keys.E:
-                    p_class[lv.SelectedItems[0].Index].Pic_Width = Cursor.Position.X - p_class[lv.SelectedItems[0].Index].Pic_X;
-                    lv.SelectedItems[0].SubItems[8].Text = p_class[lv.SelectedItems[0].Index].Pic_Width.ToString();
-                    p_class[lv.SelectedItems[0].Index].Pic_Height = Cursor.Position.Y - p_class[lv.SelectedItems[0].Index].Pic_Y;
-                    lv.SelectedItems[0].SubItems[9].Text = p_class[lv.SelectedItems[0].Index].Pic_Height.ToString();
+                    p.Pic_Width = Cursor.Position.X - p.Pic_X;
+                    lv.SelectedItems[0].SubItems[8].Text = p.Pic_Width.ToString();
+                    p.Pic_Height = Cursor.Position.Y - p.Pic_Y;
+                    lv.SelectedItems[0].SubItems[9].Text = p.Pic_Height.ToString();
                     break;
             }
             return;
@@ -163,18 +199,18 @@ partial class Form01 : Form{
         for(int k = 0; k <= rows; k++)
         {
             int i = k - j;
-            if(p_class[i].Name != null){
-                lv.Items.Add(p_class[i].Name); 
-                lv.Items[i].SubItems.Add(p_class[i].Necessity.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].X.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Y.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Width.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Height.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Pic_X.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Pic_Y.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Pic_Width.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Pic_Height.ToString());
-                lv.Items[i].SubItems.Add(p_class[i].Pic_CreateDate); 
+            if(p_class[k].Name != null){
+                lv.Items.Add(p_class[k].Name); 
+                lv.Items[i].SubItems.Add(p_class[k].Necessity.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].X.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Y.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Width.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Height.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Pic_X.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Pic_Y.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Pic_Width.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Pic_Height.ToString());
+                lv.Items[i].SubItems.Add(p_class[k].Pic_CreateDate); 
             }else{
                 j++;
             }
@@ -184,17 +220,29 @@ partial class Form01 : Form{
     void Data_Check(){
         paint_list();
         bool a;
+
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+
+       
         for(int i = 0; i <= rows; i++){
-            a = (p_class[i].Width < 1 || p_class[i].Height < 1 );
-            a = a || (p_class[i].Pic_Width < 1 || p_class[i].Pic_Height < 1 );
-            a = a || (p_class[i].Necessity && !System.IO.File.Exists(p_class[i].Address));
+            pic_data_class p = find_p_class(lv.Items[i].SubItems[0].Text);
+            a = (p.Width < 1 || p.Height < 1 );
+            a = a || (p.Pic_Width < 1 || p.Pic_Height < 1 );
+            a = a || (p.Necessity && !System.IO.File.Exists(p.Address));
             if(a) lv.Items[i].BackColor = Color.Red;
         }
     }
 
-    void show_Form02(pic_data_class obj){
-        Form02 fm2 = new Form02(obj);
+    void show_Form02(pic_data_class p){
+        string str = p.Name;
+        Form02 fm2 = new Form02(p);
         fm2.ShowDialog(this);
         fm2.Dispose();
+        paint_list();
     }
 }

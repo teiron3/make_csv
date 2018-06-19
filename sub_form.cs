@@ -22,6 +22,6 @@ partial class Form02 : Form{
         btn1.Parent = this;
         btn1.Text = "•ÏX”½‰f";
         btn1.Location = new Point(10, 70);
-        btn1.Click += (obj, e) => {p_args.Name = textbox1.Text;return;};
+        btn1.Click += (obj, e) => {p_args.Name = textbox1.Text;this.Close();};
     }
 }
