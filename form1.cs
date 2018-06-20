@@ -97,13 +97,22 @@ partial class Form01 : Form{
     void btn4Click_getpicture(object sender, EventArgs e){
         if(lv.SelectedItems.Count < 1)return;
 
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+ 
+        pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
+
         bool a;
-        a = (p_class[lv.SelectedItems[0].Index].Width < 1 || p_class[lv.SelectedItems[0].Index].Height < 1 );
-        a = a || (p_class[lv.SelectedItems[0].Index].Pic_Width < 1 || p_class[lv.SelectedItems[0].Index].Pic_Height < 1 );
+        a = (p.Width < 1 || p.Height < 1 );
+        a = a || (p.Pic_Width < 1 || p.Pic_Height < 1 );
         if(a){MessageBox.Show("Žæ“¾”ÍˆÍ‚Ì’l‚ðŽæ‚è’¼‚µ‚Ä‚­‚¾‚³‚¢");return;}
 
-        if(p_class[lv.SelectedItems[0].Index].Necessity)
-        pic_make.pic_create(p_class[lv.SelectedItems[0].Index]);
+        if(p.Necessity)
+        pic_make.pic_create(p);
     }
 
     void btn5Click_namechange(object sender, EventArgs e){
