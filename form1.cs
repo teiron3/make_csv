@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -249,9 +250,17 @@ partial class Form01 : Form{
 
     void show_Form02(pic_data_class p){
         string str = p.Name;
-        Form02 fm2 = new Form02(p);
-        fm2.ShowDialog(this);
-        fm2.Dispose();
+        bool flg = true;
+        while(flg){
+            Form02 fm2 = new Form02(p);
+            fm2.ShowDialog(this);
+            fm2.Dispose();
+            if(p_class.Count(n => n != null && n.Name == p.Name) >= 2){
+                p.Name = str;
+            }else{
+                flg = false;
+            }
+        }
         paint_list();
     }
 }
