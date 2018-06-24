@@ -58,7 +58,7 @@ partial class Form01 : Form{
 
         Button btn4 = new Button();
         btn4.Parent = this;
-        btn4.Location = new Point(390, 210);
+        btn4.Location = new Point(300, 260);
         btn4.Width = 80;
         btn4.Height = 40;
         btn4.Text = "âÊëúéÊìæ";
@@ -80,6 +80,14 @@ partial class Form01 : Form{
         btn6.Height = 40;
         btn6.Text = "êVãKí«â¡";
         btn6.Click += new EventHandler(btn6Click_newname);
+
+        Button btn7 = new Button();
+        btn7.Parent = this;
+        btn7.Location = new Point(390, 210);
+        btn7.Width = 80;
+        btn7.Height = 40;
+        btn7.Text = "çÌèú";
+        btn7.Click += new EventHandler(btn7Click_delete);
 
         this.KeyPreview = true;
         KeyDown += new KeyEventHandler(testkeypress);
@@ -135,6 +143,22 @@ partial class Form01 : Form{
 
         show_Form02(p_class[this.rows]);
     }
+
+
+    void btn7Click_delete(object sender, EventArgs e){
+
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+
+        pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
+        p.Name = null;
+        paint_list();
+    }
+
     void testkeypress(object sender, KeyEventArgs e){
         if(lv.SelectedItems.Count > 0){
             //if(a != Keys.X | a != Keys.Y | a != Keys.P)return;
@@ -202,7 +226,7 @@ partial class Form01 : Form{
                     
         }
     } 
-    
+
     void paint_list(){
         lv.Items.Clear();
         int j = 0;
