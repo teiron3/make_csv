@@ -108,7 +108,12 @@ class pic_data_class{
     public int Pic_Height{get;set;}
     public string Pic_CreateDate{get;set;}
     public Bitmap Pic_data{get;set;}
-    public string Address{get{return @".\pic_folder\" + this.Name + ".bmp";}}
+    public string Address{
+        get{
+            if(this.Name.StartsWith("#"))return @".\pic_folder\" + this.Name.Substring(1) + ".bmp";
+            return @".\pic_folder\" + this.Name + ".bmp";
+        }
+    }
 }
 
 class pic_make{
