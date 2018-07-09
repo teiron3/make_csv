@@ -66,7 +66,7 @@ partial class Form01 : Form{
 
         Button btn5 = new Button();
         btn5.Parent = this;
-        btn5.Location = new Point(480, 210);
+        btn5.Location = new Point(390, 210);
         btn5.Width = 80;
         btn5.Height = 40;
         btn5.Text = "名前変更";
@@ -75,7 +75,7 @@ partial class Form01 : Form{
 
         Button btn6 = new Button();
         btn6.Parent = this;
-        btn6.Location = new Point(480, 260);
+        btn6.Location = new Point(390, 260);
         btn6.Width = 80;
         btn6.Height = 40;
         btn6.Text = "新規追加";
@@ -83,11 +83,27 @@ partial class Form01 : Form{
 
         Button btn7 = new Button();
         btn7.Parent = this;
-        btn7.Location = new Point(390, 210);
-        btn7.Width = 80;
+        btn7.Location = new Point(480, 210);
+        btn7.Width = 40;
         btn7.Height = 40;
         btn7.Text = "削除";
         btn7.Click += new EventHandler(btn7Click_delete);
+
+        Button btn8 = new Button();
+        btn8.Parent = this;
+        btn8.Location = new Point(530, 210);
+        btn8.Width = 80;
+        btn8.Height = 40;
+        btn8.Text = "コメント化";
+        btn8.Click += new EventHandler(btn8Click_comment);
+
+        Button btn9 = new Button();
+        btn9.Parent = this;
+        btn9.Location = new Point(530, 260);
+        btn9.Width = 80;
+        btn9.Height = 40;
+        btn9.Text = "非コメント化";
+        btn9.Click += new EventHandler(btn9Click_discomment);
 
         this.KeyPreview = true;
         KeyDown += new KeyEventHandler(testkeypress);
@@ -139,11 +155,10 @@ partial class Form01 : Form{
     void btn6Click_newname(object sender, EventArgs e){
         this.rows ++;
         p_class[this.rows] = new pic_data_class();
-        //p_class[this.rows].Name;
+        //p_class[this.rows].Name = null;
 
         show_Form02(p_class[this.rows]);
     }
-
 
     void btn7Click_delete(object sender, EventArgs e){
 
@@ -154,8 +169,45 @@ partial class Form01 : Form{
             return null;
         };
 
-        pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
-        p.Name = null;
+        foreach(ListViewItem tmp in lv.SelectedItems){
+            pic_data_class p = find_p_class(tmp.SubItems[0].Text);
+            p.Name = null;
+        }
+        paint_list();
+    }
+
+    void btn8Click_comment(object sender, EventArgs e){
+
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+
+        foreach(ListViewItem tmp in lv.SelectedItems){
+            pic_data_class p = find_p_class(tmp.SubItems[0].Text);
+            if(p.Name.StartsWith("#"))continue;
+            p.Name = "#" + p.Name;
+        }
+        paint_list();
+    }
+
+    void btn9Click_discomment(object sender, EventArgs e){
+
+        Func<string, pic_data_class>find_p_class = (str_name) =>{
+            foreach(pic_data_class pc in p_class){
+                if(str_name == pc.Name)return pc;
+            }
+            return null;
+        };
+
+        foreach(ListViewItem tmp in lv.SelectedItems){
+            pic_data_class p = find_p_class(tmp.SubItems[0].Text);
+            if(p.Name.StartsWith("#")){
+                p.Name = p.Name.Substring(1);
+            }
+        }
         paint_list();
     }
 
