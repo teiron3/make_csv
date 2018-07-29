@@ -53,7 +53,7 @@ partial class Form01
             if(p_class[i].Necessity == true)
             {
                 if(System.IO.File.Exists(p_class[i].Address))
-                    this.p_class[i].Pic_data = new Bitmap(p_class[i].Address);
+                    ;//this.p_class[i].Pic_data = new Bitmap(p_class[i].Address);
                 else
                     logwrite("error:" + p_class[i].Name + "‚Ìbmpƒtƒ@ƒCƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ");
             }

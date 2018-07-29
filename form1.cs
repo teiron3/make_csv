@@ -105,6 +105,14 @@ partial class Form01 : Form{
         btn9.Text = "非コメント化";
         btn9.Click += new EventHandler(btn9Click_discomment);
 
+        Button btn10 = new Button();
+        btn10.Parent = this;
+        btn10.Location = new Point(210, 210);
+        btn10.Width = 80;
+        btn10.Height = 40;
+        btn10.Text = "画像比較テスト";
+        btn10.Click += new EventHandler(btn10Click_pictest);
+
         this.KeyPreview = true;
         KeyDown += new KeyEventHandler(testkeypress);
 
@@ -211,6 +219,38 @@ partial class Form01 : Form{
         paint_list();
     }
 
+    void btn10Click_pictest(object sender, EventArgs e){
+
+        if(lv.SelectedItems.Count > 0){
+
+            Func<string, pic_data_class>find_p_class = (str_name) =>{
+                foreach(pic_data_class pc in p_class){
+                    if(str_name == pc.Name)return pc;
+                }
+                return null;
+            };
+            pic_data_class p = find_p_class(lv.SelectedItems[0].SubItems[0].Text);
+
+            if(p.Necessity == true)
+            {
+                
+                if(System.IO.File.Exists(p.Address)){
+
+                    p.Pic_data = new Bitmap(p.Address);
+                    pic_hit p_hit = new pic_hit();
+                    if(p_hit.pic_con(p)){
+                        logwrite_msgbox("画像あり");
+                    }
+                    else{
+                        logwrite_msgbox("画像なし");
+                    }
+                }
+                else
+                    logwrite("error:比較用の" + p.Name + "のbmpファイルがありません");
+            }
+        }
+    }
+
     void testkeypress(object sender, KeyEventArgs e){
         if(lv.SelectedItems.Count > 0){
             //if(a != Keys.X | a != Keys.Y | a != Keys.P)return;
@@ -274,7 +314,6 @@ partial class Form01 : Form{
                     break;
             }
             return;
-            
                     
         }
     } 
@@ -313,7 +352,6 @@ partial class Form01 : Form{
             }
             return null;
         };
-
        
         for(int i = 0; i <= rows; i++){
             pic_data_class p = find_p_class(lv.Items[i].SubItems[0].Text);
